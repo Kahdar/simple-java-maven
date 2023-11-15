@@ -22,7 +22,7 @@ pipeline:
             os: Linux
             arch: Amd64
           runtime:
-            type: Cloud
+            type: Docker
             spec: {}
           execution:
             steps:
@@ -33,3 +33,5 @@ pipeline:
                   spec:
                     shell: Sh
                     command: echo 'harness ci'
+        delegateSelectors:
+          - harness-demo-delegate
