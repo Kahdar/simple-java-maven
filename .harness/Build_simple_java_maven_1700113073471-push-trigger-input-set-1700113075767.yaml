@@ -1,5 +1,6 @@
 inputSet:
   name: Build_simple_java_maven_1700113073471-push-trigger-input-set
+  tags: {}
   identifier: Build_simple_java_maven_1700113073471pushtriggerinputset
   orgIdentifier: default
   projectIdentifier: HarnessDemo
