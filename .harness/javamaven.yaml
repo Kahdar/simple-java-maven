@@ -1,0 +1,60 @@
+pipeline:
+  name: java-maven
+  identifier: javamaven
+  projectIdentifier: HarnessDemo
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: githubmavenconnector
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run
+                  identifier: Run
+                  spec:
+                    shell: Bash
+                    command: |-
+                      #!/usr/bin/env bash
+
+                      echo 'The following Maven command installs your Maven-built Java application'
+                      echo 'into the local Maven repository, which will ultimately be stored in'
+                      echo 'Jenkins''s local Maven repository (and the "maven-repository" Docker data'
+                      echo 'volume).'
+                      set -x
+                      mvn jar:jar install:install help:evaluate -Dexpression=project.name
+                      set +x
+
+                      echo 'The following complex command extracts the value of the <name/> element'
+                      echo 'within <project/> of your Java/Maven project''s "pom.xml" file.'
+                      set -x
+                      NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"`
+                      set +x
+
+                      echo 'The following complex command behaves similarly to the previous one but'
+                      echo 'extracts the value of the <version/> element within <project/> instead.'
+                      set -x
+                      VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
+                      set +x
+
+                      echo 'The following command runs and outputs the execution of your Java'
+                      echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
+                      set -x
+                      java -jar target/${NAME}-${VERSION}.jar
