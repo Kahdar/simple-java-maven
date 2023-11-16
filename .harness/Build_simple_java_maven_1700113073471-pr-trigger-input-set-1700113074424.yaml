@@ -1,5 +1,6 @@
 inputSet:
   name: Build_simple_java_maven_1700113073471-pr-trigger-input-set
+  tags: {}
   identifier: Build_simple_java_maven_1700113073471prtriggerinputset
   orgIdentifier: default
   projectIdentifier: HarnessDemo
